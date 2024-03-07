@@ -37,10 +37,10 @@ const products = [
   },
 ];
 
-export function getProductList() {
+export async function getProductList() {
   return products;
 }
 
-export function getProductById(productId) {
+export async function getProductById(productId) {
   return products.find((product) => product.id === productId);
 }
