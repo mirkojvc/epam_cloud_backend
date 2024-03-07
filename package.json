@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -17,6 +17,10 @@
   },
   "homepage": "https://github.com/mirkojvc/epam_cloud_backend#readme",
   "dependencies": {
+    "jest": "^29.7.0",
     "serverless": "^3.38.0"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.24.0"
   }
 }
