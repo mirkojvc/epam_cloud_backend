@@ -34,7 +34,7 @@ paths:
                       type: number
                       description: The price of the product
     x-amazon-apigateway-integration:
-      uri: arn:aws:apigateway:eu-west-1:lambda:path/2015-03-31/functions/arn:aws:lambda:eu-west-1:123456789012:function:product-service-getProductList/invocations
+      uri: arn:aws:apigateway:eu-west-1:lambda:path/2015-03-31/functions/arn:aws:lambda:eu-west-1:730335531456:function:product-service-dev-getProductList/invocations
       responses:
         default:
           statusCode: 200
@@ -73,7 +73,7 @@ paths:
         "404":
           message: Product not found
     x-amazon-apigateway-integration:
-      uri: arn:aws:apigateway:eu-west-1:lambda:path/2015-03-31/functions/arn:aws:lambda:eu-west-1:123456789012:function:product-service-getProductById/invocations
+      uri: arn:aws:apigateway:eu-west-1:lambda:path/2015-03-31/functions/arn:aws:lambda:eu-west-1:730335531456:function:product-service-dev-getProductsById/invocations
       responses:
         default:
           statusCode: 200
