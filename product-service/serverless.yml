@@ -1,0 +1,29 @@
+service: product-service
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: eu-west-1
+  environment:
+    fontendURL: https://d1wfixy1n5oib3.cloudfront.net/
+  httpApi:
+    cors:
+      allowedOrigins:
+        - https://d1wfixy1n5oib3.cloudfront.net
+      allowedHeaders:
+        - Content-Type
+
+functions:
+  getProductList:
+    handler: handler.getProductListHandler
+    events:
+      - httpApi:
+          path: /products
+          method: GET
+  getProductsById:
+    handler: handler.getProductByIdHandler
+    events:
+      - httpApi:
+          path: /products/{productId}
+          method: GET

@@ -1,0 +1,85 @@
+openapi: 3.0.0
+info:
+  title: Product Service API
+  description: API documentation for the Product Service
+  version: 1.0.0
+servers:
+  - url: https://llj0do5ze0.execute-api.eu-west-1.amazonaws.com/
+    description: Production Server
+paths:
+  /products:
+    get:
+      summary: Get a list of products
+      operationId: getProductList
+      responses:
+        "200":
+          description: A list of products
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    productId:
+                      type: string
+                      description: The ID of the product
+                    title:
+                      type: string
+                      description: The title of the product
+                    description:
+                      type: string
+                      description: The description of the product
+                    price:
+                      type: number
+                      description: The price of the product
+    x-amazon-apigateway-integration:
+      uri: arn:aws:apigateway:eu-west-1:lambda:path/2015-03-31/functions/arn:aws:lambda:eu-west-1:730335531456:function:product-service-dev-getProductList/invocations
+      responses:
+        default:
+          statusCode: 200
+    parameters: []
+  /products/{productId}:
+    get:
+      summary: Get a product by ID
+      operationId: getProductById
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          description: The ID of the product to retrieve
+          schema:
+            type: string
+      responses:
+        "200":
+          description: The product with the specified ID
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: The ID of the product
+                  title:
+                    type: string
+                    description: The title of the product
+                  description:
+                    type: string
+                    description: The description of the product
+                  price:
+                    type: number
+                    description: The price of the product
+        "404":
+          message: Product not found
+    x-amazon-apigateway-integration:
+      uri: arn:aws:apigateway:eu-west-1:lambda:path/2015-03-31/functions/arn:aws:lambda:eu-west-1:730335531456:function:product-service-dev-getProductsById/invocations
+      responses:
+        default:
+          statusCode: 200
+    parameters:
+      - name: productId
+        in: path
+        required: true
+        schema:
+          type: string
