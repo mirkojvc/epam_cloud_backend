@@ -17,10 +17,15 @@
   },
   "homepage": "https://github.com/mirkojvc/epam_cloud_backend#readme",
   "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.529.1",
+    "@aws-sdk/util-dynamodb": "^3.529.1",
+    "aws-sdk": "^2.1573.0",
     "jest": "^29.7.0",
-    "serverless": "^3.38.0"
+    "serverless": "^3.38.0",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
-    "@babel/preset-env": "^7.24.0"
+    "@babel/preset-env": "^7.24.0",
+    "serverless-iam-roles-per-function": "^3.2.0"
   }
 }

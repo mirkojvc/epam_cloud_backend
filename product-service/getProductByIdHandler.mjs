@@ -1,6 +1,7 @@
 import { getProductById } from "./ProductService.mjs";
 
 export const getProductByIdHandler = async (event) => {
+  console.log("getProductByIdHandler event: ", event);
   const productId = event.pathParameters.productId;
   const product = await getProductById(productId);
   if (product) {

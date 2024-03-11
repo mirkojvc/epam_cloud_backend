@@ -6,7 +6,23 @@ provider:
   runtime: nodejs18.x
   region: eu-west-1
   environment:
-    fontendURL: https://d1wfixy1n5oib3.cloudfront.net/
+    frontendURL: https://d1wfixy1n5oib3.cloudfront.net/
+    PRODUCTS_TABLE: Products
+    STOCK_TABLE: Stock
+  iam:
+    role:
+      statements:
+        - Effect: "Allow"
+          Action:
+            - "dynamodb:Scan"
+            - "dynamodb:GetItem"
+            - "dynamodb:PutItem"
+          Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.PRODUCTS_TABLE}"
+        - Effect: "Allow"
+          Action:
+            - "dynamodb:Scan"
+            - "dynamodb:GetItem"
+          Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.STOCK_TABLE}"
   httpApi:
     cors:
       allowedOrigins:
@@ -21,9 +37,57 @@ functions:
       - httpApi:
           path: /products
           method: GET
+
   getProductsById:
     handler: handler.getProductByIdHandler
     events:
       - httpApi:
           path: /products/{productId}
           method: GET
+  createProduct:
+    handler: handler.createProductHandler
+    events:
+      - httpApi:
+          path: /products
+          method: POST
+
+resources:
+  Resources:
+    ProductsDynamoDBTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.environment.PRODUCTS_TABLE}
+        AttributeDefinitions:
+          - AttributeName: productId
+            AttributeType: S
+          - AttributeName: title
+            AttributeType: S
+        KeySchema:
+          - AttributeName: productId
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 5
+          WriteCapacityUnits: 5
+        GlobalSecondaryIndexes:
+          - IndexName: titleIndex
+            KeySchema:
+              - AttributeName: title
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL
+            ProvisionedThroughput:
+              ReadCapacityUnits: 5
+              WriteCapacityUnits: 5
+    StockDynamoDBTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.environment.STOCK_TABLE}
+        AttributeDefinitions:
+          - AttributeName: productId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: productId
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 5
+          WriteCapacityUnits: 5
